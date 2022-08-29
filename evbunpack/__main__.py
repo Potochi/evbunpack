@@ -8,7 +8,7 @@ from evbunpack.aplib import decompress
 from evbunpack.const import *
 from evbunpack import __version__
 
-ORIGINAL_PE_SUFFIX = '_original.exe'
+ORIGINAL_PE_PREFIX = 'unpacked_'
 FOLDER_ALTNAMES = {
     '%DEFAULT FOLDER%' : ''
 }
@@ -296,7 +296,7 @@ def restore_pe(file,output):
         tls_dir.VirtualAddress = 0
         tls_dir.Size = 0
     # Write to new file
-    pe_name = os.path.basename(file)[:-4] + ORIGINAL_PE_SUFFIX
+    pe_name = ORIGINAL_PE_PREFIX + os.path.basename(file)
     pe_name = os.path.join(output,pe_name).replace('\\','/')    
     new_file_data = pe.write()
     write_bytes(BytesIO(new_file_data),open(pe_name,'wb+'),len(new_file_data),desc='Saving PE')
